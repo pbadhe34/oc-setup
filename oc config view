@@ -1,0 +1,148 @@
+dell@kmaster:~/Desktop$ sudo oc config view
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: REDACTED
+    server: https://127.0.0.1:8443
+  name: 127-0-0-1:8443
+- cluster:
+    insecure-skip-tls-verify: true
+    server: https://localhost:8443
+  name: localhost:8443
+contexts:
+- context:
+    cluster: 127-0-0-1:8443
+    user: developer/127-0-0-1:8443
+  name: /127-0-0-1:8443/developer
+- context:
+    cluster: localhost:8443
+    user: system/localhost:8443
+  name: /localhost:8443/system
+- context:
+    cluster: 127-0-0-1:8443
+    namespace: default
+    user: system:admin/127-0-0-1:8443
+  name: default/127-0-0-1:8443/system:admin
+- context:
+    cluster: 127-0-0-1:8443
+    namespace: myproject
+    user: developer/127-0-0-1:8443
+  name: myproject/127-0-0-1:8443/developer
+- context:
+    cluster: 127-0-0-1:8443
+    namespace: myproject
+    user: system:admin/127-0-0-1:8443
+  name: myproject/127-0-0-1:8443/system:admin
+current-context: myproject/127-0-0-1:8443/system:admin
+kind: Config
+preferences: {}
+users:
+- name: developer/127-0-0-1:8443
+  user:
+    token: 516ObjOhiUxEUvpLBDnuLklngQusnMPSzRmvNbIWco4
+- name: system/localhost:8443
+  user:
+    token: oxvKlOP2aZpbyCe-kw6CrWS2m_UllA0x6Ab1OnzhVU8
+- name: system:admin/127-0-0-1:8443
+  user:
+    client-certificate-data: REDACTED
+    client-key-data: REDACTED
+
+**********************
+
+sudo kubectl cluster-info
+Kubernetes master is running at https://127.0.0.1:8443
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+dell@kmaster:~/Desktop$ 
+
+************************
+
+dell@kmaster:~/Desktop$ sudo kubectl get nodes
+NAME        STATUS    ROLES     AGE       VERSION
+localhost   Ready     <none>    13m       v1.11.0+d4cacc0
+
+***************************
+ sudo oc config current-context
+myproject/127-0-0-1:8443/system:admin
+
+**************************
+
+dell@kmaster:~/Desktop$ sudo oc config get-clusters
+NAME
+127-0-0-1:8443
+localhost:8443
+
+*********************
+dell@kmaster:~/Desktop$ sudo oc status
+In project My Project (myproject) on server https://127.0.0.1:8443
+
+You have no services, deployment configs, or build configs.
+Run 'oc new-app' to create an application.
+
+********************8
+dell@kmaster:~/Desktop$ sudo oc logout
+error: You must have a token in order to logout.
+*********************
+ sudo cat  openshift.local.clusterup/node/node.kubeconfig
+****************************
+ Login from host Directory
+
+dell@kmaster:~/Desktop$ sudo oc login -u system:admin
+Logged into "https://127.0.0.1:8443" as "system:admin" using existing credentials.
+
+You have access to the following projects and can switch between them with 'oc project <projectname>':
+
+  * default
+    kube-dns
+    kube-proxy
+    kube-public
+    kube-system
+    myproject
+    openshift
+    openshift-apiserver
+    openshift-controller-manager
+    openshift-core-operators
+    openshift-infra
+    openshift-node
+    openshift-service-cert-signer
+    openshift-web-console
+
+Using project "default".
+dell@kmaster:~/Desktop$ sudo oc get nodes
+NAME        STATUS    ROLES     AGE       VERSION
+localhost   Ready     <none>    45m       v1.11.0+d4cacc0
+dell@kmaster:~/Desktop$ sudo kubectl get nodes
+NAME        STATUS    ROLES     AGE       VERSION
+localhost   Ready     <none>    45m       v1.11.0+d4cacc0
+dell@kmaster:~/Desktop$ sudo kubectl cluster-info
+Kubernetes master is running at https://127.0.0.1:8443
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+dell@kmaster:~/Desktop$ sudo kubectl get pods -n kube-system
+NAME                                READY     STATUS    RESTARTS   AGE
+kube-controller-manager-localhost   1/1       Running   0          45m
+kube-scheduler-localhost            1/1       Running   0          45m
+master-api-localhost                1/1       Running   0          45m
+master-etcd-localhost               1/1       Running   0          45m
+dell@kmaster:~/Desktop$ sudo kubectl get pods
+NAME                            READY     STATUS      RESTARTS   AGE
+docker-registry-1-deploy        0/1       Error       0          42m
+persistent-volume-setup-zw8lk   0/1       Completed   0          43
+****************************************************
+ ***********
+Incorrect login from another directory
+sudo oc login -u system
+Authentication required for https://127.0.0.1:8443 (openshift)
+Username: system
+Password: 
+Login successful.
+
+You don't have any projects. You can try to create a new project, by running
+
+    oc new-project <projectname>
+***************************
+ printenv KUBECONFIG
+/etc/kubernetes/admin.conf
+
+**********************

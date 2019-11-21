@@ -1,0 +1,311 @@
+Cannot use Docker endpoint (unix:///var/run/docker.sock) because it is not using one of the following protocols: tcp, http, https
+
+Checking if OpenShift client is configured properly ...
+F1116 21:29:39.240349   19804 helpers.go:119] error: KUBECONFIG is set to a file that cannot be created or modified: /etc/kubernetes/admin.conf
+
+sudo apt install ufw
+https://askubuntu.com/questions/864958/how-can-we-replace-iptables-with-firewalld-in-ubuntu-16-04/864979
+
+  sudo groupadd docker
+$ sudo usermod -a -G docker <userName>
+ 
+
+sudo usermod -G docker user-name , where user-name is the user name. 
+
+sudo usermod -G docker dell
+
+To remove user from group
+
+ gpasswd -d user group
+
+
+Make executable
+sudo chmod +x oc
+
+sudo chmod +x kubectl
+
+Export path
+
+  /home/dell/Desktop/OpenShift/openshift-Client-V3
+
+export PATH="/home/dell/Desktop/OpenShift/openshift-Client-V3:$PATH"
+
+Edit /etc/docker/daemon.json file and add the following:
+
+{
+   "insecure-registries": [
+     "172.30.0.0/16"
+   ]
+}
+
+  docker network inspect bridge | grep Subnet
+  Output : "Subnet": "172.17.0.0/16"
+
+sudo firewall-cmd --permanent --zone okdlocal --add-source 172.17.0.0/16																																									 																																				   
+ **Create a non-root user docker
+ ** How to add another node to openshift cluster with oc
+
+journalctl -xe : for all logs
+journalctl -xeu docker																																																																																																																																																																																																																																	
+
+ 
+  Allow all incomig connections
+
+
+firewall-cmd --permanent --new-zone dockerc
+firewall-cmd --permanent --zone dockerc --add-source 172.17.0.0/16
+
+sudo firewall-cmd --permanent --zone dockerc --add-source 172.17.0.0/16	
+
+  sudo ufw allow from 172.17.0.0/16  
+
+firewall-cmd --permanent --zone dockerc --add-port 8443/tcp
+  sudo ufw allow 8443/tcp
+firewall-cmd --permanent --zone dockerc --add-port 53/udp
+
+  sudo ufw allow 53/udp
+firewall-cmd --permanent --zone dockerc --add-port 8053/udp
+  sudo ufw allow 8053/udp
+firewall-cmd --reload
+
+ From Client Tools Dir
+sudo mv  oc kubectl  /usr/local/bin/
+
+******************************************************
+The following options can be passed to any command with OC:
+
+      --alsologtostderr=false: log to standard error as well as files
+      --as='': Username to impersonate for the operation
+      --as-group=[]: Group to impersonate for the operation, this flag can be
+repeated to specify multiple groups.
+      --cache-dir='/home/dell/.kube/http-cache': Default HTTP cache directory
+      --certificate-authority='': Path to a cert file for the certificate
+authority
+      --client-certificate='': Path to a client certificate file for TLS
+      --client-key='': Path to a client key file for TLS
+      --cluster='': The name of the kubeconfig cluster to use
+      --config='': Path to the kubeconfig file to use for CLI requests.
+      --context='': The name of the kubeconfig context to use
+      --httptest.serve='': if non-empty, httptest.NewServer serves on this
+address and blocks
+      --insecure-skip-tls-verify=false: If true, the server's certificate will
+not be checked for validity. This will make your HTTPS connections insecure
+      --kubeconfig='': Path to the kubeconfig file to use for CLI requests.
+      --log-flush-frequency=5s: Maximum number of seconds between log flushes
+      --log_backtrace_at=:0: when logging hits line file:N, emit a stack trace
+      --log_dir='': If non-empty, write log files in this directory
+      --loglevel=0: Set the level of log output (0-10)
+      --logspec='': Set per module logging with file|pattern=LEVEL,...
+      --logtostderr=true: log to standard error instead of files
+      --match-server-version=false: Require server version to match client
+version
+  -n, --namespace='': If present, the namespace scope for this CLI request
+      --request-timeout='0': The length of time to wait before giving up on a
+single server request. Non-zero values should contain a corresponding time unit
+(e.g. 1s, 2m, 3h). A value of zero means don't timeout requests.
+  -s, --server='': The address and port of the Kubernetes API server
+      --stderrthreshold=2: logs at or above this threshold go to stderr
+      --token='': Bearer token for authentication to the API server
+      --user='': The name of the kubeconfig user to use
+  -v, --v=0: log level for V logs
+
+***************************************
+
+  The default config file path is
+  openshift.local.clusterup/node/node.kubeconfig
+
+  The Node master config file is
+  openshift.local.clusterup/node/node-config.yaml
+
+  The kube-config file path is
+  /home/<user>/.kube/config
+				
+
+
+
+***************************************
+From Client tools v3.11
+  sudo oc cluster up
+
+  sudo oc cluster status
+
+   oc get nodes
+
+  oc login -u system:admin
+
+  printenv KUBECONFIG
+/etc/kubernetes/admin.conf
+
+  Default config file : /home/dell/.kube/config
+
+sudo kubectl config view: command creates file /home/dell/.kube/config
+
+
+ sudo oc login -u system:admin
+
+*****************************
+oc login -u system
+Server [https://localhost:8443]: 
+The server uses a certificate signed by an unknown authority.
+You can bypass the certificate check, but any data you send to the server could be intercepted by others.
+Use insecure connections? (y/n): y
+
+Authentication required for https://localhost:8443 (openshift)
+Username: system
+Password: 
+Login successful.
+
+You don't have any projects. You can try to create a new project, by running
+
+    oc new-project <projectname>
+
+error: KUBECONFIG is set to a file that cannot be created or modified: /etc/kubernetes/admin.conf; caused by: mkdir /etc/kubernetes: permission denied
+
+******************************
+
+ sudo oc login -u system
+[sudo] password for dell: 
+Authentication required for https://127.0.0.1:8443 (openshift)
+Username: system
+Password: 
+Login successful.
+
+You don't have any projects. You can try to create a new project, by running
+
+    oc new-project <projectname>
+***********************************
+'
+
+dell@kmaster:~/Desktop/OpenShift$ sudo oc cluster status
+Web console URL: https://127.0.0.1:8443/console/
+
+Config is at host directory 
+Volumes are at host directory 
+Persistent volumes are at host directory /home/dell/Desktop/OpenShift/openshift.local.clusterup/openshift.local.pv
+Data will be discarded when cluster is destroyed
+
+
+*****************************8
+dell@kmaster:~/Desktop/OpenShift$ sudo oc whoami
+system
+
+**************************
+
+TryItOut
+https://docs.okd.io/latest/getting_started/administrators.html#downloading-the-binary
+*****************************************
+sudo kubectl cluster-info
+
+Kubernetes master is running at https://localhost:8443
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+Error from server (Forbidden): services is forbidden: User "system" cannot list services in the namespace "kube-system": no RBAC policy matched
+
+*************************************
+
+
+  dell@kmaster:~/Desktop/OpenShift$ sudo kubectl config view
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: REDACTED
+    server: https://127.0.0.1:8443
+  name: 127-0-0-1:8443
+contexts:
+- context:
+    cluster: 127-0-0-1:8443
+    user: developer/127-0-0-1:8443
+  name: /127-0-0-1:8443/developer
+- context:
+    cluster: 127-0-0-1:8443
+    user: system/127-0-0-1:8443
+  name: /127-0-0-1:8443/system
+- context:
+    cluster: 127-0-0-1:8443
+    namespace: default
+    user: system:admin/127-0-0-1:8443
+  name: default/127-0-0-1:8443/system:admin
+- context:
+    cluster: 127-0-0-1:8443
+    namespace: myproject
+    user: developer/127-0-0-1:8443
+  name: myproject/127-0-0-1:8443/developer
+current-context: /127-0-0-1:8443/system
+kind: Config
+preferences: {}
+users:
+- name: developer/127-0-0-1:8443
+  user:
+    token: 1F1heldP6ihAs4pGdUKxq9IbzNW-iUFP8kNmL3Qhg4g
+- name: system/127-0-0-1:8443
+  user:
+    token: IWCjGr4QTMyE8bvEGYh-xGQx4IBKFySjy3poXSGy49g
+- name: system:admin/127-0-0-1:8443
+  user:
+    client-certificate-data: REDACTED
+    client-key-data: REDACTED
+
+**********************
+ Openshift docker images for cluster
+
+  openshift/origin-node            v3.11               249ca97e388f        3 weeks ago         1.19GB
+openshift/origin-control-plane   v3.11               3fad55d0b2bc        3 weeks ago         831MB
+openshift/origin-hypershift      v3.11               9918b48caff6        3 weeks ago         551MB
+openshift/origin-hyperkube       v3.11               593fa6cbb593        3 weeks ago         510MB
+openshift/origin-cli             v3.11               c5caf3700de6        3 weeks ago         385MB
+openshift/origin-pod             v3.11               d8af79d5fbe2        3 weeks ago         263MB
+
+
+netstat -ltnp | grep -w ':80' 
+
+tcp6       0      0 :::80                   :::*                    LISTEN      1795/nginx.conf 
+
+
+ sudo ps -ef
+
+sudo  kill 1795
+
+ Stop all containers
+sudo docker stop $(sudo docker ps -aq)
+ Remove all containers
+
+sudo docker rm $(sudo docker ps -aq)
+
+  sudo docker container ls -a
+
+ ************************Edit OCP configuration file.
+ Edit ocp config file
+$ nano ./openshift.local.clusterup/openshift-controller-manager/openshift-master.kubeconfig
+
+sudo gedit  ./openshift.local.clusterup/openshift-controller-manager/openshift-master.kubeconfig
+
+
+Locate line “server: https://127.0.0.1:8443“, then replace with:
+
+server: https://serverip:8443
+*************************
+  Docker start options
+
+   n RHEL and Fedora, edit the /etc/sysconfig/docker file and add or uncomment the insecure registry line:
+
+  sudo vi /etc/sysconfig/docker
+
+  INSECURE_REGISTRY='--insecure-registry 172.30.0.0/16'
+
+After editing the config, restart the Docker daemon.
+
+  sudo systemctl restart docker
+
+In Ubuntu edit /lib/systemd/system/docker.service and edit the ExecStart line:
+
+sudo vi /lib/systemd/system/docker.service
+
+ExecStart=/usr/bin/dockerd --insecure-registry 172.30.0.0/16 -H fd://
+
+After editing the config, restart the Docker daemon.
+
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+**************************
+
+
